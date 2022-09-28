@@ -12,10 +12,13 @@ export const GlobalStyles = createGlobalStyle`
         box-shadow: 0 0 0 2px ${(props) => props.theme['green-700']};
     }
 
+    body, input, button {
+        font-family: 'Roboto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
     body {
         background-color: ${(props) => props.theme['gray-900']};
         color: ${(props) => props.theme['gray-300']};
-        font-family: 'Roboto', sans-serif;
-        -webkit-font-smoothing: antialiased;
     }
 `
