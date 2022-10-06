@@ -1,21 +1,18 @@
-import { useContext, useEffect } from 'react'
 import { differenceInSeconds } from 'date-fns'
-
+import { useContext, useEffect } from 'react'
+import { CyclesContext } from '../..'
 import { CountdownContainer, Separator } from './styles'
-import { CycleContext } from '../..'
 
-export function Countdow() {
+export function Countdown() {
   const {
     activeCycle,
-    activeCycleID,
+    activeCycleId,
     markCurrentCycleAsFinished,
     amountSecondsPassed,
     setSecondsPassed,
-  } = useContext(CycleContext)
+  } = useContext(CyclesContext)
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
-
-  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
   useEffect(() => {
     let interval: number
@@ -26,26 +23,30 @@ export function Countdow() {
           new Date(),
           activeCycle.startDate,
         )
+
         if (secondsDifference >= totalSeconds) {
           markCurrentCycleAsFinished()
-          setSecondsPassed(totalSeconds)
 
+          setSecondsPassed(totalSeconds)
           clearInterval(interval)
         } else {
           setSecondsPassed(secondsDifference)
         }
       }, 1000)
     }
+
     return () => {
       clearInterval(interval)
     }
   }, [
     activeCycle,
     totalSeconds,
-    activeCycleID,
-    markCurrentCycleAsFinished,
+    activeCycleId,
     setSecondsPassed,
+    markCurrentCycleAsFinished,
   ])
+
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
   const minutesAmount = Math.floor(currentSeconds / 60)
   const secondsAmount = currentSeconds % 60
@@ -55,11 +56,9 @@ export function Countdow() {
 
   useEffect(() => {
     if (activeCycle) {
-      document.title = `${minutes}:${seconds} • Ignite Pomodoro`
-    } else {
-      document.title = 'Ignite Pomodoro'
+      document.title = `${minutes}:${seconds}`
     }
-  }, [seconds, minutes, activeCycle])
+  }, [minutes, seconds, activeCycle])
 
   return (
     <CountdownContainer>
