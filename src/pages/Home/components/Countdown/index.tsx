@@ -21,7 +21,7 @@ export function Countdown() {
       interval = setInterval(() => {
         const secondsDifference = differenceInSeconds(
           new Date(),
-          activeCycle.startDate,
+          new Date(activeCycle.startDate),
         )
 
         if (secondsDifference >= totalSeconds) {
@@ -55,9 +55,7 @@ export function Countdown() {
   const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
-    if (activeCycle) {
-      document.title = `${minutes}:${seconds}`
-    }
+    activeCycle ? document.title = `Faltam ${minutes}:${seconds}` : document.title = 'Ignite Pomodoro'
   }, [minutes, seconds, activeCycle])
 
   return (
